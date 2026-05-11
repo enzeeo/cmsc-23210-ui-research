@@ -9,7 +9,7 @@ const TERMS_DOCUMENT_SCROLL_HEIGHT_OFFSET = 4;
 const TERMS_DOCUMENT_RENDER_DELAY_IN_MILLISECONDS = 150;
 const TRACKING_SESSION_STORAGE_KEY = "termsTrackingSessionState";
 const MOBILE_PDF_ZOOM_BREAKPOINT_IN_PIXELS = 720;
-const MOBILE_PDF_INITIAL_ZOOM_SCALE = 1.14;
+const MOBILE_PDF_INITIAL_ZOOM_SCALE = 1.55;
 
 let trackingSessionState = null;
 let termsDocumentLoadingPromise = null;
@@ -179,6 +179,20 @@ function getTermsDocumentRenderWidth(viewerWidth) {
   return viewerWidth;
 }
 
+function centerTermsDocumentHorizontalScrollOnMobile(elements) {
+  if (!elements.termsContainer || window.innerWidth > MOBILE_PDF_ZOOM_BREAKPOINT_IN_PIXELS) {
+    return;
+  }
+
+  const hiddenHorizontalWidth = elements.termsContainer.scrollWidth - elements.termsContainer.clientWidth;
+
+  if (hiddenHorizontalWidth <= 0) {
+    return;
+  }
+
+  elements.termsContainer.scrollLeft = hiddenHorizontalWidth / 2;
+}
+
 async function renderTermsDocumentPageToCanvas(pdfPage, viewerWidth) {
   const unscaledViewport = pdfPage.getViewport({ scale: 1 });
   const renderWidth = getTermsDocumentRenderWidth(viewerWidth);
@@ -259,6 +273,7 @@ async function renderTermsDocument(elements) {
     }
 
     elements.termsDocumentViewer.replaceChildren(...pageElements);
+    centerTermsDocumentHorizontalScrollOnMobile(elements);
     hideTermsDocumentState(elements);
     termsDocumentRenderedSuccessfully = true;
     lastRenderedTermsDocumentWidth = viewerWidth;
