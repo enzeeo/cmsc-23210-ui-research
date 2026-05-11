@@ -424,6 +424,11 @@ body {
   line-height: 1.25;
 }
 
+.terms-symbol-item span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .terms-symbol-icon {
   display: block;
   width: var(--terms-symbol-icon-size);
@@ -451,6 +456,7 @@ body {
   margin-top: 0;
   margin-bottom: var(--spacing-medium);
   color: var(--muted-text-color);
+  overflow-wrap: anywhere;
 }
 
 .terms-container {
@@ -578,6 +584,10 @@ button:disabled {
   margin-top: 0.5rem;
 }
 
+.status-message:empty {
+  display: none;
+}
+
 @media (max-width: 1100px) {
   .terms-layout {
     grid-template-columns: minmax(0, var(--content-card-maximum-width));
@@ -623,6 +633,7 @@ button:disabled {
   .terms-container,
   .consent-section {
     grid-column: 1;
+    min-width: 0;
   }
 
   .terms-title-bar {
@@ -648,11 +659,22 @@ button:disabled {
     padding: 1rem;
   }
 
+  .terms-layout {
+    width: calc(100vw - 2rem);
+    min-width: 0;
+    max-width: calc(100vw - 2rem);
+  }
+
   .terms-title-bar {
+    width: calc(100vw - 2rem);
+    max-width: calc(100vw - 2rem);
     padding: 0 1rem;
   }
 
   .terms-symbol-key {
+    --terms-symbol-icon-size: 1.75rem;
+    width: calc(100vw - 2rem);
+    max-width: calc(100vw - 2rem);
     grid-template-columns: 1fr;
     gap: 0.6rem;
     padding: 0.75rem 1rem;
@@ -664,11 +686,12 @@ button:disabled {
 
   .terms-symbol-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem 0.65rem;
   }
 
   .terms-symbol-item {
     gap: 0.45rem;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
   }
 
   .terms-container {
@@ -692,6 +715,8 @@ button:disabled {
   }
 
   .consent-section {
+    width: calc(100vw - 2rem);
+    max-width: calc(100vw - 2rem);
     padding-left: 1rem;
     padding-right: 1rem;
     padding-top: 1rem;

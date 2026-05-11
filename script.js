@@ -57,7 +57,7 @@ function enableConsentControls(elements) {
   elements.nameInput.disabled = false;
   elements.acceptButton.disabled = false;
   elements.rejectButton.disabled = false;
-  elements.statusMessage.textContent = "You can now enter your name and choose Accept or Reject.";
+  elements.statusMessage.textContent = "";
 }
 
 function disableConsentControls(elements) {
@@ -222,7 +222,7 @@ async function renderTermsDocument(elements) {
   elements.termsContainer.scrollTop = 0;
   clearTermsDocumentViewer(elements);
   showTermsDocumentState(elements, "Loading terms document...", "loading");
-  showMessage(elements, "Read the document above before continuing.");
+  showMessage(elements, "");
 
   try {
     const pdfDocument = await loadTermsDocument();
