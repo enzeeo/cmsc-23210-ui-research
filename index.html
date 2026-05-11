@@ -220,38 +220,71 @@
   </header>
 
   <main class="page-wrapper">
-    <section class="content-card terms-page-card">
-      <div class="terms-title-bar">
-        <h1>Terms and Conditions</h1>
-      </div>
+    <div class="terms-layout">
+      <aside class="terms-symbol-key" aria-labelledby="termsSymbolKeyTitle">
+        <h2 id="termsSymbolKeyTitle">Symbol Key</h2>
+        <ul class="terms-symbol-list">
+          <li class="terms-symbol-item">
+            <img src="tc/users.PNG" alt="" class="terms-symbol-icon" />
+            <span>User</span>
+          </li>
+          <li class="terms-symbol-item">
+            <img src="tc/service.PNG" alt="" class="terms-symbol-icon" />
+            <span>Horizons Service</span>
+          </li>
+          <li class="terms-symbol-item">
+            <img src="tc/thirdparty.PNG" alt="" class="terms-symbol-icon" />
+            <span>Third Party Service</span>
+          </li>
+          <li class="terms-symbol-item">
+            <img src="tc/location.PNG" alt="" class="terms-symbol-icon" />
+            <span>Location</span>
+          </li>
+          <li class="terms-symbol-item">
+            <img src="tc/general.PNG" alt="" class="terms-symbol-icon" />
+            <span>General User Data (account data files)</span>
+          </li>
+          <li class="terms-symbol-item">
+            <img src="tc/contact.PNG" alt="" class="terms-symbol-icon" />
+            <span>Contact Information</span>
+          </li>
+        </ul>
+      </aside>
 
-      <div id="termsContainer" class="terms-container" aria-label="Terms and conditions document" tabindex="0">
-        <p
-          id="termsDocumentStateMessage"
-          class="terms-document-state-message"
-          aria-live="polite"
-          hidden
-        ></p>
-        <div id="termsDocumentViewer" class="terms-document-viewer" aria-label="Terms and conditions pages"></div>
-      </div>
+      <section class="content-card terms-page-card">
+        <div class="terms-title-bar">
+          <h1>Terms and Conditions</h1>
+        </div>
 
-      <div class="consent-section">
-        <p class="helper-text">
-          Read the document above, then enter your name and choose Accept or Reject.
-          <strong>Accepting or rejecting this T&C will not affect the process of testing this website.</strong>
-          Please make a decision as you would in real life, which best suits your interests.
-        </p>
-        <form id="consentForm" class="form-layout">
-          <label for="nameInput">Your name</label>
-          <input id="nameInput" name="nameInput" type="text" placeholder="Enter your name" disabled required />
+        <div id="termsContainer" class="terms-container" aria-label="Terms and conditions document" tabindex="0">
+          <p
+            id="termsDocumentStateMessage"
+            class="terms-document-state-message"
+            aria-live="polite"
+            hidden
+          ></p>
+          <div id="termsDocumentViewer" class="terms-document-viewer" aria-label="Terms and conditions pages"></div>
+        </div>
 
-          <div class="button-group">
-            <button id="acceptButton" type="button" disabled>Accept</button>
-            <button id="rejectButton" type="button" disabled>Reject</button>
-          </div>
-        </form>
-      </div>
-    </section>
+        <div class="consent-section">
+          <p class="helper-text">
+            Read the document above, then enter your name and choose Accept or Reject.
+            <strong>Accepting or rejecting this T&C will not affect the process of testing this website.</strong>
+            Please make a decision as you would in real life, which best suits your interests.
+          </p>
+          <form id="consentForm" class="form-layout">
+            <label for="nameInput">Your name</label>
+            <input id="nameInput" name="nameInput" type="text" placeholder="Enter your name" disabled required />
+
+            <div class="button-group">
+              <button id="acceptButton" type="button" disabled>Accept</button>
+              <button id="rejectButton" type="button" disabled>Reject</button>
+            </div>
+            <p id="statusMessage" class="status-message" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </div>
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
