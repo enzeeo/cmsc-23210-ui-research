@@ -8,6 +8,8 @@ const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174
 const TERMS_DOCUMENT_SCROLL_HEIGHT_OFFSET = 4;
 const TERMS_DOCUMENT_RENDER_DELAY_IN_MILLISECONDS = 150;
 const TRACKING_SESSION_STORAGE_KEY = "termsTrackingSessionState";
+const MOBILE_PDF_ZOOM_BREAKPOINT_IN_PIXELS = 720;
+const MOBILE_PDF_INITIAL_ZOOM_SCALE = 1.14;
 
 let trackingSessionState = null;
 let termsDocumentLoadingPromise = null;
@@ -169,9 +171,18 @@ function getSafeDevicePixelRatio() {
   return 1;
 }
 
+function getTermsDocumentRenderWidth(viewerWidth) {
+  if (window.innerWidth <= MOBILE_PDF_ZOOM_BREAKPOINT_IN_PIXELS) {
+    return viewerWidth * MOBILE_PDF_INITIAL_ZOOM_SCALE;
+  }
+
+  return viewerWidth;
+}
+
 async function renderTermsDocumentPageToCanvas(pdfPage, viewerWidth) {
   const unscaledViewport = pdfPage.getViewport({ scale: 1 });
-  const pageScale = viewerWidth / unscaledViewport.width;
+  const renderWidth = getTermsDocumentRenderWidth(viewerWidth);
+  const pageScale = renderWidth / unscaledViewport.width;
   const scaledViewport = pdfPage.getViewport({ scale: pageScale });
   const devicePixelRatio = getSafeDevicePixelRatio();
 
