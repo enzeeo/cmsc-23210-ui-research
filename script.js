@@ -1,4 +1,4 @@
-const TRACKING_ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbyq4MmASdPC2fqYr2w9O-HYoWl4vAqHu3gtGjAjMZfgK3U4ORN1WlHbIGo_qxSSqDRjPw/exec";
+const TRACKING_ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbw4NTnFECoLhm-W_-ZAekqetJz4EYiU5M5WNfJbLVBlAl7Qi33T3_Hf2Jw29l0Sx42HAQ/exec";
 const SCROLL_TOLERANCE_IN_PIXELS = 2;
 const SMALL_PLANET_LAYER_COUNT = 5;
 const DUST_PLANET_LAYER_COUNT = 50;
@@ -11,6 +11,7 @@ const TRACKING_SESSION_STORAGE_KEY = "termsTrackingSessionState";
 const MOBILE_PDF_ZOOM_BREAKPOINT_IN_PIXELS = 720;
 const MOBILE_PDF_INITIAL_ZOOM_SCALE = 1.55;
 const TRACKING_CONDITION = "visual";
+const TRACKING_REQUEST_TIMEOUT_IN_MILLISECONDS = 1000;
 
 let trackingSessionState = null;
 let termsDocumentLoadingPromise = null;
@@ -565,8 +566,18 @@ function sendTrackingData(payload) {
   return fetch(buildTrackingRequestUrl(payload), {
     method: "POST",
     body: formData,
+    mode: "no-cors",
     keepalive: true
   });
+}
+
+function waitForTrackingRequestOrTimeout(trackingRequestPromise) {
+  return Promise.race([
+    trackingRequestPromise,
+    new Promise((resolve) => {
+      window.setTimeout(resolve, TRACKING_REQUEST_TIMEOUT_IN_MILLISECONDS);
+    })
+  ]);
 }
 
 async function handleButtonSelection(selectedAction, elements) {
@@ -585,7 +596,7 @@ async function handleButtonSelection(selectedAction, elements) {
   elements.nameInput.disabled = true;
 
   try {
-    await sendTrackingData(trackingPayload);
+    await waitForTrackingRequestOrTimeout(sendTrackingData(trackingPayload));
   } catch (error) {
     showMessage(elements, "Tracking endpoint is unavailable right now. Continuing to next page.");
   }
