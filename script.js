@@ -1,4 +1,4 @@
-const TRACKING_ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbz2BCyaOHCzEgYg69aBvDM7jusIlzZjAlGkTmMoY7WqmbGQ9ML1q0Ga0k9pre7QjikuvA/exec";
+const TRACKING_ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbyq4MmASdPC2fqYr2w9O-HYoWl4vAqHu3gtGjAjMZfgK3U4ORN1WlHbIGo_qxSSqDRjPw/exec";
 const SCROLL_TOLERANCE_IN_PIXELS = 2;
 const SMALL_PLANET_LAYER_COUNT = 5;
 const DUST_PLANET_LAYER_COUNT = 50;
@@ -10,6 +10,7 @@ const TERMS_DOCUMENT_RENDER_DELAY_IN_MILLISECONDS = 150;
 const TRACKING_SESSION_STORAGE_KEY = "termsTrackingSessionState";
 const MOBILE_PDF_ZOOM_BREAKPOINT_IN_PIXELS = 720;
 const MOBILE_PDF_INITIAL_ZOOM_SCALE = 1.55;
+const TRACKING_CONDITION = "visual";
 
 let trackingSessionState = null;
 let termsDocumentLoadingPromise = null;
@@ -535,6 +536,7 @@ function buildTrackingPayload(typedName, selectedAction) {
   return {
     typedName,
     selectedAction,
+    condition: TRACKING_CONDITION,
     pressedAtIsoTimestamp: new Date(buttonPressedAtMilliseconds).toISOString(),
     timeFromPageOpenToSelectionMilliseconds: trackedActiveMillisecondsAtSelection
   };
@@ -545,6 +547,7 @@ function sendTrackingData(payload) {
 
   formData.append("typedName", payload.typedName);
   formData.append("selectedAction", payload.selectedAction);
+  formData.append("condition", payload.condition);
   formData.append("pressedAtIsoTimestamp", payload.pressedAtIsoTimestamp);
   formData.append(
     "timeFromPageOpenToSelectionMilliseconds",
