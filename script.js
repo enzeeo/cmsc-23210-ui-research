@@ -542,6 +542,14 @@ function buildTrackingPayload(typedName, selectedAction) {
   };
 }
 
+function buildTrackingRequestUrl(payload) {
+  const trackingRequestUrl = new URL(TRACKING_ENDPOINT_URL);
+
+  trackingRequestUrl.searchParams.set("condition", payload.condition);
+
+  return trackingRequestUrl.toString();
+}
+
 function sendTrackingData(payload) {
   const formData = new URLSearchParams();
 
@@ -554,7 +562,7 @@ function sendTrackingData(payload) {
     String(payload.timeFromPageOpenToSelectionMilliseconds)
   );
 
-  return fetch(TRACKING_ENDPOINT_URL, {
+  return fetch(buildTrackingRequestUrl(payload), {
     method: "POST",
     body: formData,
     keepalive: true
@@ -577,7 +585,7 @@ async function handleButtonSelection(selectedAction, elements) {
   elements.nameInput.disabled = true;
 
   try {
-    sendTrackingData(trackingPayload);
+    await sendTrackingData(trackingPayload);
   } catch (error) {
     showMessage(elements, "Tracking endpoint is unavailable right now. Continuing to next page.");
   }
